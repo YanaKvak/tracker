@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
+import { API_BASE_URL } from '../config';
 import './auth.css';
 
 const Register = ({ onLogin = () => {} }) => {
@@ -29,13 +30,13 @@ const Register = ({ onLogin = () => {} }) => {
     
     try {
       // 1. Регистрация
-      const registerResponse = await axios.post('http://localhost:3000/api/users', formData);
+      const registerResponse = await axios.post(`${API_BASE_URL}/api/auth/register`, formData);
       
-      if (registerResponse.data.success) {
+      if (registerResponse.data) {
         setSuccessMessage('Регистрация прошла успешно!');
         
         // 2. Автоматический вход
-        const loginResponse = await axios.post('http://localhost:3000/api/auth/login', {
+        const loginResponse = await axios.post(`${API_BASE_URL}/api/auth/login`, {
           email: formData.email,
           password: formData.password
         });
@@ -73,6 +74,7 @@ const Register = ({ onLogin = () => {} }) => {
       }
     }
   };
+  
   
   return (
     <div className="auth-bg">
