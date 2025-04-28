@@ -71,7 +71,6 @@ const Register = () => {
       }
     }
   };
-
   return (
     <div className="auth-bg">
       <div className="auth-container">
