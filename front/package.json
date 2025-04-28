@@ -8,13 +8,6 @@
 <<<<<<< HEAD
     "bootstrap": "^5.3.3",
     "chart.js": "^3.9.1",
-=======
-    "body-parser": "^1.20.3",
-    "bootstrap": "^5.3.3",
-    "chart.js": "^3.9.1",
-    "cors": "^2.8.5",
-    "i18next": "^24.2.3",
->>>>>>> 23ffe819bbf8ba0ceb1d7c07adf8a869904fcf6d
     "react": "^18.2.0",
     "react-bootstrap": "^2.10.9",
     "react-chartjs-2": "^4.3.1",
