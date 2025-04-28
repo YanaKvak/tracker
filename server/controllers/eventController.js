@@ -2,7 +2,7 @@ import eventService from '../services/eventService.js';
 
 const getAllEvents = async (req, res, next) => {
   try {
-    const events = await eventService.getAllEvents(req.query.userId);
+    const events = await eventService.getAllEvents(req.user.id);
     res.json(events);
   } catch (err) {
     next(err);
@@ -11,7 +11,10 @@ const getAllEvents = async (req, res, next) => {
 
 const createEvent = async (req, res, next) => {
   try {
-    const event = await eventService.createEvent(req.body);
+    const event = await eventService.createEvent({
+      userId: req.user.id, // Добавляем userId из авторизованного пользователя
+      ...req.body
+    });
     res.status(201).json({ message: 'Событие успешно создано', event });
   } catch (err) {
     next(err);

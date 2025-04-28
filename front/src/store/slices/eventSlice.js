@@ -1,9 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { fetchEvents, createEvent, updateEvent, deleteEvent } from '../../api/eventApi';
 
-export const getEvents = createAsyncThunk('events/fetchEvents', async (_, { rejectWithValue }) => {
+// Измените getEvents на передачу userId
+export const getEvents = createAsyncThunk('events/fetchEvents', async (userId, { rejectWithValue }) => {
   try {
-    const response = await fetchEvents();
+    const response = await fetchEvents(userId); // Передаем userId в API запрос
     return response;
   } catch (error) {
     return rejectWithValue(error.response?.data?.error || 'Failed to fetch events');

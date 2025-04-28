@@ -2,11 +2,9 @@ import Event from '../models/Event.js';
 import User from '../models/User.js';
 
 const getAllEvents = async (userId) => {
-  const where = userId ? { user_id: userId } : {};
   const events = await Event.findAll({
-    where,
+    where: { user_id: userId }, // Фильтруем по user_id
     order: [['event_date', 'ASC'], ['event_time', 'ASC']],
-    include: [{ model: User, as: 'user', attributes: ['username'] }],
   });
   return events;
 };
