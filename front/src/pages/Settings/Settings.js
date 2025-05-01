@@ -6,8 +6,10 @@ import { setUser, logout } from '../../store/slices/authSlice';
 import { getUserById, updateUser, uploadAvatar, changePassword } from '../../api/userApi';
 import { getAvatarLetter } from '../../utils';
 import './Settings.css';
+import useAssetUrl from '../../hooks/useAssetUrl';
 
 const Settings = () => {
+  const getAssetUrl = useAssetUrl();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.auth.user);
@@ -202,6 +204,7 @@ const Settings = () => {
     setIsLoading(true);
     setError('');
     try {
+      console.log('user', user);
       const response = await uploadAvatar(user.id, file);
       const avatarUrl = response.avatar_url;
       console.log('Avatar URL:', avatarUrl); // For debugging
@@ -299,7 +302,7 @@ const Settings = () => {
                   <div className="avatar-preview">
                     {profileData.avatar ? (
                       <img
-                        src={profileData.avatar}
+                        src={getAssetUrl(profileData.avatar)}
                         alt="Avatar"
                         className="avatar-image"
                         onError={() => console.error('Failed to load avatar image:', profileData.avatar)}
