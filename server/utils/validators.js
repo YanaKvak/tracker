@@ -152,6 +152,12 @@ const authSchema = {
     body('email').isEmail().normalizeEmail().withMessage('Некорректный email'),
     body('password').isLength({ min: 6 }).withMessage('Пароль должен содержать минимум 6 символов'),
   ],
+  reset_password: [
+    body('email').isEmail().normalizeEmail().withMessage('Некорректный email'),
+  ],
+  confirm_reset_password: [
+    body('password').isLength({ min: 6 }).withMessage('Пароль должен содержать минимум 6 символов'),
+  ]
 };
 
 export { userSchema, teamSchema, teamMemberSchema, projectSchema, taskSchema, tagSchema, taskTagSchema, eventSchema, authSchema };

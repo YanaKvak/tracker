@@ -26,9 +26,21 @@ const verifyEmailToken = (token) => {
   return jwt.verify(token, process.env.EMAIL_SECRET);
 };
 
+// Генерация токена для сброса пароля
+const generateResetPasswordToken = (email) => {
+  return jwt.sign({ email }, process.env.RESET_PASSWORD_SECRET, { expiresIn: '15m' });
+};
+
+// Проверка токена сброса пароля
+const verifyResetPasswordToken = (token) => {
+  return jwt.verify(token, process.env.RESET_PASSWORD_SECRET);
+};
+
 export {
   generateToken,
   verifyToken,
   generateEmailToken,
-  verifyEmailToken
+  verifyEmailToken,
+  generateResetPasswordToken,
+  verifyResetPasswordToken
 };

@@ -105,6 +105,9 @@ const Login = () => {
         <div className="auth-links">
           <Link to="/register">{t('login_create_link')}</Link>
         </div>
+        <div className="auth-links">
+          <Link to="/reset-password">{t('reset_password_link')}</Link>
+        </div>
       </div>
     </div>
   );

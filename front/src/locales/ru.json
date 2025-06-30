@@ -374,5 +374,19 @@
     "loading_events": "Загрузка событий...",
     "task_remove_favorite": "Убрать из избранного",
     "task_add_favorite": "Добавить в избранное",
-    "task_edit": "Редактировать задачу"
+    "task_edit": "Редактировать задачу",
+
+    "_comment43": "============== RESET PASSWORD ==============",
+    "reset_password_link": "Сбросить пароль",
+    "reset_password_title": "Восстановление пароля",
+    "reset_password_button": "Отправить",
+    "reset_password_button_loading": "Отправка...",
+    "reset_password_request_sent": "Если email найден, ссылка для восстановления отправлена",
+    "back_to_login": "Назад ко входу",
+    "reset_password_no_token": "Токен не найден. Пожалуйста, используйте корректную ссылку из письма.",
+    "reset_password_password_too_short": "Пароль должен содержать минимум 6 символов.",
+    "reset_password_success": "Пароль успешно обновлен! Перенаправляем на страницу входа...",
+    "reset_password_unknown_error": "Произошла неизвестная ошибка. Попробуйте еще раз.",
+    "reset_password_new_password_label": "Новый пароль",
+    "reset_password_new_password_placeholder": "Введите новый пароль"
 }

@@ -374,5 +374,19 @@
     "loading_events": "Loading events...",
     "task_remove_favorite": "Remove from favorites",
     "task_add_favorite": "Add to favorites",
-    "task_edit": "Edit task"
+    "task_edit": "Edit task",
+
+    "_comment43": "============== RESET PASSWORD ==============",
+    "reset_password_link": "Reset Password",
+    "reset_password_title": "Password Recovery",
+    "reset_password_button": "Send",
+    "reset_password_button_loading": "Sending...",
+    "reset_password_request_sent": "If the email is found, a recovery link has been sent",
+    "back_to_login": "Back to login",
+    "reset_password_no_token": "Token not found. Please use the correct link from the email.",
+    "reset_password_password_too_short": "Password must be at least 6 characters.",
+    "reset_password_success": "Password successfully updated! Redirecting to login...",
+    "reset_password_unknown_error": "An unknown error occurred. Please try again.",
+    "reset_password_new_password_label": "New Password",
+    "reset_password_new_password_placeholder": "Enter new password"
 }
