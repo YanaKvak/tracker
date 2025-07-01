@@ -160,4 +160,41 @@ const authSchema = {
   ]
 };
 
-export { userSchema, teamSchema, teamMemberSchema, projectSchema, taskSchema, tagSchema, taskTagSchema, eventSchema, authSchema };
+const supportSchema = {
+  create_room: [
+    body('user_id')
+      .isInt({ min: 1 })
+      .withMessage('user_id должен быть целым положительным числом'),
+    body('status')
+      .optional()
+      .isIn(['open', 'closed'])
+      .withMessage('status должен быть "open" или "closed"'),
+    body('topic')
+      .isString()
+      .notEmpty()
+      .withMessage('Текст заголовка обязателен'),
+  ],
+  create_message: [
+    body('text')
+      .isString()
+      .notEmpty()
+      .withMessage('Текст сообщения обязателен'),
+    body('sender')
+      .isIn(['employee', 'manager', 'admin', 'system'])
+      .withMessage('Недопустимый отправитель'),
+    body('chat_room_id')
+      .isInt({ min: 1 })
+      .withMessage('chat_room_id должен быть числом'),
+    body('user_id')
+      .optional()
+      .isInt({ min: 1 })
+      .withMessage('user_id должен быть числом'),
+  ],
+  close_room: [
+    param('chat_room_id')
+      .isInt({ min: 1 })
+      .withMessage('chat_room_id должен быть целым положительным числом'),
+  ]
+};
+
+export { userSchema, teamSchema, teamMemberSchema, projectSchema, taskSchema, tagSchema, taskTagSchema, eventSchema, authSchema, supportSchema };

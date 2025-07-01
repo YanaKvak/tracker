@@ -127,6 +127,7 @@ const Register = () => {
             <select name="role" value={formData.role} onChange={handleChange}>
               <option value="employee">{t('register_role_employee')}</option>
               <option value="manager">{t('register_role_manager')}</option>
+              <option value="admin">{t('register_role_admin')}</option>
             </select>
           </div>
 

@@ -18,6 +18,8 @@ import Layout from './components/Layout/Layout';
 import ConfirmEmail from './pages/Email/ConfirmEmail';
 import ConfirmResetPasswordForm from './pages/ResetPassword/ConfirmResetPasswordForm'
 import ResetPasswordForm from './pages/ResetPassword/ResetPasswordForm'
+import ChatList from './pages/Supports/ChatList'
+import Chat from './pages/Supports/Chat'
 import './index.css';
 
 const App = () => {
@@ -162,6 +164,25 @@ const App = () => {
             <ProtectedRoute>
               <Layout>
                 <TaskListPage />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route path="/support/:chat/"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <Chat />
+              </Layout>
+            </ProtectedRoute>
+          } 
+        />
+        <Route
+          path="/support"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <ChatList />
               </Layout>
             </ProtectedRoute>
           }

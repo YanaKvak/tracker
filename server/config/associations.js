@@ -4,6 +4,8 @@ import TeamMember from '../models/TeamMember.js';
 import Project from '../models/Project.js';
 import Task from '../models/Task.js';
 import Event from '../models/Event.js';
+import ChatRoom from '../models/ChatRoom.js';
+import Message from '../models/Message.js';
 
 const setupAssociations = () => {
   // User -> Team
@@ -32,6 +34,19 @@ const setupAssociations = () => {
 
   User.hasMany(Task, { foreignKey: 'assignee_id', as: 'tasksAssigned' });
   Task.belongsTo(User, { foreignKey: 'assignee_id', as: 'assignee' });
+
+  // ChatRoom -> User
+  ChatRoom.belongsTo(User, { foreignKey: 'user_id', as: 'user' });
+  User.hasMany(ChatRoom, { foreignKey: 'user_id', as: 'chatRooms' });
+
+  // Message -> ChatRoom
+  Message.belongsTo(ChatRoom, { foreignKey: 'chat_room_id', as: 'chatRoom' });
+  ChatRoom.hasMany(Message, { foreignKey: 'chat_room_id', as: 'messages' });
+
+  // Message -> User (sender)
+  Message.belongsTo(User, { foreignKey: 'user_id', as: 'user' });
+  User.hasMany(Message, { foreignKey: 'user_id', as: 'messages' });
+
 };
 
 export default setupAssociations;

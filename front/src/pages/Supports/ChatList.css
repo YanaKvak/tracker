@@ -1,0 +1,45 @@
+.chat-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--card-bg);
+    border-radius: 10px;
+    padding: 30px;
+    margin-bottom: 10px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.chat-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+.chat-content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.create-button {
+  padding: 12px 25px;
+  background: var(--accent-color);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 30px;
+}
+
+.create-button:hover {
+  background: var(--accent-color);
+  filter: brightness(0.9);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(var(--accent-color), 0.4);
+}
