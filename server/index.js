@@ -8,6 +8,9 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import compression from 'compression';
 import setupAssociations from './config/associations.js';
+import http from 'http';
+import { Server as SocketIOServer } from 'socket.io';
+
 
 configDotenv();
 
@@ -38,7 +41,48 @@ const start = async () => {
     await sequelize.sync({ force: false });
     console.log('Database synced successfully');
 
-    app.listen(PORT, '0.0.0.0', () => {
+    // Настройка вебсокета
+    const server = http.createServer(app);
+    const io = new SocketIOServer(server, {
+      cors: {
+        origin: '*',
+        methods: ['GET', 'POST']
+      }
+    });
+    io.on('connection', (socket) => {
+      console.log('\x1b[32m%s\x1b[0m', 'WebSocket подключен:', socket.id);
+    
+      socket.on('join_user_chat', ({ userId }) => {
+        const room = `room-${userId}`;
+        socket.join(room);
+        console.log('\x1b[32m%s\x1b[0m', `Пользователь ${userId} вошел в комнату ${room}`);
+      });
+    
+      socket.on('join_support_chat', ({ userId }) => {
+        const room = `room-${userId}`;
+        socket.join(room);
+        console.log('\x1b[32m%s\x1b[0m', `Техподдержка присоединилась к комнате ${room}`);
+      });
+    
+      socket.on('send_message', ({ userId, sender, text }) => {
+        const message = {
+          userId,
+          sender,
+          text,
+          timestamp: new Date()
+        };
+        io.to(`room-${userId}`).emit('receive_message', message);
+      });
+    
+      socket.on('disconnect', () => {
+        console.log('\x1b[31m%s\x1b[0m', 'Отключен:', socket.id);
+      });
+    });
+    io.on('error', (err) => {
+      console.error('\x1b[31m%s\x1b[0m', 'Socket.IO error:', err);
+    });
+
+    server.listen(PORT, '0.0.0.0', () => {
       console.log(`Server is running on port ${PORT}`);
     });
   } catch (err) {

@@ -7,6 +7,7 @@ import {
   FiSettings,
   FiHelpCircle
 } from 'react-icons/fi';
+import { FaComment } from "react-icons/fa";
 import './Navbar.css';
 import { useNavigate, useLocation, matchPath } from 'react-router-dom';
 
@@ -21,6 +22,7 @@ const Navbar = () => {
     { id: 'favorites', icon: <FiHeart size={20} />, path: '/favorites' },
     { id: 'settings', icon: <FiSettings size={20} />, path: '/settings' },
     { id: 'help', icon: <FiHelpCircle size={20} />, path: '/help' },
+    { id: 'support', icon: <FaComment size={20} />, path: '/support' },
   ];
 
   const getActiveIcon = () => {

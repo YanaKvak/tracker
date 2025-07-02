@@ -5,6 +5,7 @@ import projectRouter from './projectRouter.js';
 import taskRouter from './taskRouter.js';
 import eventRouter from './eventRouter.js';
 import authRouter from './authRouter.js';
+import supportRouter from './supportRouter.js'
 
 const router = new Router();
 
@@ -14,5 +15,6 @@ router.use('/projects', projectRouter);
 router.use('/tasks', taskRouter);
 router.use('/events', eventRouter);
 router.use('/auth', authRouter);
+router.use('/support', supportRouter);
 
 export default router;

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FaShareAlt, FaSignOutAlt, FaUser } from 'react-icons/fa';
+import { FaComment } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { getAvatarLetter } from '../../utils';
@@ -50,6 +51,16 @@ const TopBar = ({ onLogout }) => {
       <div className="top-bar-actions">
         {user ? (
           <div className="user-controls">
+            {/* <div>
+              <button 
+                onClick={() => navigate('/support')} 
+                className="chat-button"
+                aria-label="Поддержка"
+              >
+                <FaComment aria-hidden="true" />
+                <span className="visually-hidden">Поддержка</span>
+              </button>
+            </div> */}
             <div className="user-avatar">
               {profileData.avatar ? (
                 <img

@@ -17,6 +17,16 @@ export const verifyEmailToken = async (token) => {
   return response.data;
 };
 
+export const sendResetPasswordRequest = async (email) => {
+  const response = await api.post('/auth/reset-password', { email });
+  return response.data;
+};
+
+export const sendConfirmResetPasswordRequest = async (token, password) => {
+  const response = await api.post('/auth/confirm-reset-password', { token, password });
+  return response.data;
+};
+
 // export const resendConfirmationEmail = async (email) => {
 //   const response = await api.post('/auth/resend-confirmation', { email });
 //   return response.data;

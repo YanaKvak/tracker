@@ -74,6 +74,20 @@
   background-color: var(--secondary-text);
 }
 
+.chat-button {
+  background-color: var(--accent-color);
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
 .login-btn {
   background-color: var(--secondary-text);
   border: none;
