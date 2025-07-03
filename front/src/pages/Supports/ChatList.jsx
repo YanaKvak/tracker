@@ -24,6 +24,10 @@ export default function ChatList() {
         if (savedLanguage && savedLanguage !== i18n.language) {
         i18n.changeLanguage(savedLanguage);
         }
+        dispatch(getTeams(user.id)).catch((err) => {
+            console.error('Ошибка загрузки команд:', err);
+            toast.error('Не удалось загрузить команды');
+        });
     }, [i18n]);
 
     useEffect(() => {
@@ -68,22 +72,21 @@ export default function ChatList() {
         return;
         }
         try {
-        await dispatch(addChatRoom({
-            user_id: user.id,
-            topic,
-            status: 'open',
-            selectedTeam,
-        })).unwrap();
-        toast.success(t('chat_created'));
-        setTopic('');
-        setShowForm(false);
-        dispatch(fetchChatRooms({
-            page: 1,
-            limit: 20,
-            user_id: user.id,
-            team_id: selectedTeam,
-            role: user.role,
-        }));
+            console.log(user.id, topic, selectedTeam)
+            await dispatch(addChatRoom({
+                user_id: user.id,
+                topic,
+                status: 'open',
+                team_id: Number(selectedTeam),
+            })).unwrap();
+            toast.success(t('chat_created'));
+            setTopic('');
+            setShowForm(false);
+            dispatch(fetchChatRooms({
+                user_id: user.id,
+                team_id: Number(selectedTeam),
+                role: user.role,
+            }));
         } catch (err) {
         toast.error(err.message || t('error_creating_chat'));
         }
