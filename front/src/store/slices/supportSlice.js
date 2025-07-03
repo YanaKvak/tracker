@@ -137,7 +137,7 @@ const supportSlice = createSlice({
         state.roomsError = null;
       })
       .addCase(addChatRoom.fulfilled, (state, action) => {
-        state.rooms.unshift(action.payload);
+        // state.rooms.unshift(action.payload);
       })
       .addCase(addChatRoom.rejected, (state, action) => {
         state.roomsError = action.payload || 'Failed to create chat room';
