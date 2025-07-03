@@ -3,7 +3,7 @@ import { fetchTeams, createTeam, updateTeam, deleteTeam, addTeamMember, removeTe
 
 export const getTeams = createAsyncThunk('teams/fetchTeams', async (user, { rejectWithValue }) => {
   try {
-    const response = await fetchTeams(user.role === 'manager' ? user.id : null);
+    const response = await fetchTeams(user.id);
     return response;
   } catch (error) {
     return rejectWithValue(error.response?.data?.message || 'Не удалось загрузить команды');

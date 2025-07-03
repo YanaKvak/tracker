@@ -1,8 +1,8 @@
 import api from './api';
 
-export const fetchTeams = async (userId = null) => {
+export const fetchTeams = async (userId) => {
   const response = await api.get('/teams', {
-    params: userId ? { created_by: userId } : {},
+    params: userId,
   });
   return response.data;
 };

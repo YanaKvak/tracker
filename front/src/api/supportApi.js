@@ -17,8 +17,6 @@ export const getChatRooms = async ({ user_id, team_id, role }) => {
     const response = await api.get('/support/chat-room', {
         params: { user_id, team_id, role }
     });
-    console.log(user_id, team_id, role)
-    console.log(user_id, team_id, role, response)
     return response.data;
 };
 

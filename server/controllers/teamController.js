@@ -18,7 +18,9 @@ const searchUsersByEmail = async (req, res, next) => {
 const getTeamsForUser = async (req, res, next) => {
   try {
     const userId = req.user.id;
+    console.log(userId)
     const teams = await teamService.getTeamsForUser(userId);
+    console.log(teams)
     res.json(teams);
   } catch (err) {
     next(err);
