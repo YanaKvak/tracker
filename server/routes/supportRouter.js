@@ -11,5 +11,6 @@ router.get('/chat-room/:chat_room_id/', supportController.getRoom)
 router.post('/chat-room/:chat_room_id/close', validate(supportSchema.close_room), supportController.closeRoom);
 router.post('/chat-room/messages', validate(supportSchema.create_message), supportController.createMessage)
 router.get('/chat-room/:chat_room_id/messages', supportController.getMessages);
+router.post('/callback', validate(supportSchema.callback), supportController.createCallback);
 
 export default router

@@ -61,14 +61,15 @@ const start = async () => {
       socket.on('join_support_chat', ({ userId }) => {
         const room = `room-${userId}`;
         socket.join(room);
-        console.log('\x1b[32m%s\x1b[0m', `Техподдержка присоединилась к комнате ${room}`);
+        console.log('\x1b[32m%s\x1b[0m', `Менеджер присоединился к комнате ${room}`);
       });
     
-      socket.on('send_message', ({ userId, sender, text }) => {
+      socket.on('send_message', ({ userId, sender, text, userEmail }) => {
         const message = {
           userId,
           sender,
           text,
+          userEmail,
           timestamp: new Date()
         };
         io.to(`room-${userId}`).emit('receive_message', message);

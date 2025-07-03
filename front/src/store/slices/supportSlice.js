@@ -9,14 +9,14 @@ import {
 } from '../../api/supportApi';
 
 export const fetchChatRooms = createAsyncThunk(
-    'support/fetchChatRooms',
-    async ({ page = 1, limit = 20, user_id, role }, thunkAPI) => {
-      try {
-        return await getChatRooms({ page, limit, user_id, role });
-      } catch (error) {
-        return thunkAPI.rejectWithValue(error.response?.data || error.message);
-      }
+  'support/fetchChatRooms',
+  async ({ user_id, team_id, role }, thunkAPI) => {
+    try {
+      return await getChatRooms({ user_id, team_id, role });
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response?.data || error.message);
     }
+  }
 );
 
 export const fetchChatRoom = createAsyncThunk(
@@ -114,7 +114,18 @@ const supportSlice = createSlice({
       })
       .addCase(fetchChatRooms.fulfilled, (state, action) => {
         state.roomsLoading = false;
-        state.rooms = action.payload.rooms || [];
+        // Добавляем новые комнаты к уже существующим, без дубликатов
+        const newRooms = action.payload.rooms || [];
+        const existingRooms = state.rooms || [];
+      
+        // Можно фильтровать дубликаты по id
+        const existingRoomIds = new Set(existingRooms.map(r => r.id));
+        const combinedRooms = [
+          ...existingRooms,
+          ...newRooms.filter(r => !existingRoomIds.has(r.id))
+        ];
+      
+        state.rooms = combinedRooms;
         state.roomsPagination = action.payload.pagination || {};
       })
       .addCase(fetchChatRooms.rejected, (state, action) => {
