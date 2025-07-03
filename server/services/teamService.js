@@ -22,12 +22,18 @@ const searchUsersByEmail = async (email) => {
 
 const getTeamsForUser = async (userId) => {
   return await Team.findAll({
+    where: {
+      [Op.or]: [
+        { created_by: userId }, // пользователь — создатель
+        { '$members.id$': userId } // пользователь — участник
+      ]
+    },
     include: [
       {
         model: User,
         as: 'members',
         attributes: ['id', 'username', 'email'],
-        where: { id: userId }
+        required: false // важное изменение: делаем LEFT JOIN
       },
       {
         model: User,

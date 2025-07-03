@@ -175,7 +175,7 @@ const Project = () => {
       console.error('Ошибка загрузки проектов:', err);
       toast.error('Не удалось загрузить проекты');
     });
-    dispatch(getTeams(user)).catch((err) => {
+    dispatch(getTeams(user.id)).catch((err) => {
       console.error('Ошибка загрузки команд:', err);
       toast.error('Не удалось загрузить команды');
     });
