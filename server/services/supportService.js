@@ -148,6 +148,7 @@ const createCallback = async ({ text, email }) => {
 
 
 const getRoom = async ({ chat_room_id }) => {
+    console.log(chat_room_id)
 
     const room = await ChatRoom.findByPk(chat_room_id)
     return room

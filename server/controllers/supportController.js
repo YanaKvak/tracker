@@ -11,7 +11,7 @@ const createRoom = async (req, res, next) => {
 
 const closeRoom = async (req, res, next) => {
     try {
-        await supportService.closeRoom(req.body);
+        await supportService.closeRoom(req.params);
         res.json({ message: 'Комната закрыта' });
     } catch (err) {
         next(err);
@@ -48,7 +48,7 @@ const getRooms = async (req, res, next) => {
 
 const getRoom = async (req, res, next) => {
     try {
-        const room = await supportService.getRoom(req.body);
+        const room = await supportService.getRoom(req.params);
         res.json(room);
     } catch (err) {
         next(err);
