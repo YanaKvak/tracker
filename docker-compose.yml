@@ -1,6 +1,7 @@
 services:
   db:
     image: postgres:15
+    container_name: tracker-db
     restart: always
     environment:
       POSTGRES_USER: ${DB_USER}
@@ -15,6 +16,7 @@ services:
 
   server:
     build: ./server
+    container_name: tracker-server
     ports:
       - "8080:8080"
     env_file:
@@ -26,6 +28,7 @@ services:
 
   frontend:
     build: ./front
+    container_name: tracker-front
     ports:
       - "3000:80"
     depends_on:

@@ -6,14 +6,17 @@ import { toast, ToastContainer } from 'react-toastify';
 import { FaTimes } from 'react-icons/fa';
 import './ChatList.css';
 import { useNavigate } from 'react-router-dom';
+import { getTeams, addTeam, editTeam, removeTeam, searchUsers, clearSearchResults } from '../../store/slices/teamSlice';
 
 export default function ChatList() {
     const { t, i18n } = useTranslation();
     const dispatch = useDispatch();
     const user = useSelector((state) => state.auth.user);
+    const { teams, searchResults, loading: teamLoading, error: teamError } = useSelector((state) => state.teams);
     const { rooms, loading, error } = useSelector((state) => state.support);
     const [showForm, setShowForm] = useState(false);
     const [topic, setTopic] = useState('');
+    const [selectedTeam, setSelectedTeam] = useState('');
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -24,21 +27,39 @@ export default function ChatList() {
     }, [i18n]);
 
     useEffect(() => {
-        if (user) {
-        dispatch(fetchChatRooms({
-            page: 1,
-            limit: 20,
-            user_id: user.id,
-            role: user.role,
-        }));
+        if (user && teams.length) {
+          teams.forEach(team => {
+            dispatch(fetchChatRooms({
+              user_id: user.id,
+              team_id: team.id,
+              role: user.role
+            }));
+          });
+        } else if (user){
+            dispatch(fetchChatRooms({
+              user_id: user.id,
+              role: user.role
+            }));
         }
-    }, [dispatch, user]);
+      }, [dispatch, user, teams]);
 
     useEffect(() => {
         if (error) {
         toast.error(error.message || 'Error loading chat rooms');
         }
     }, [error]);
+
+    useEffect(() => {
+        if (!user) {
+            navigate('/login');
+            return;
+        }
+
+        dispatch(getTeams(user)).catch((err) => {
+            console.error('Ошибка загрузки команд:', err);
+            toast.error('Не удалось загрузить команды');
+        });
+    }, [dispatch, user, navigate]);
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
@@ -51,6 +72,7 @@ export default function ChatList() {
             user_id: user.id,
             topic,
             status: 'open',
+            selectedTeam,
         })).unwrap();
         toast.success(t('chat_created'));
         setTopic('');
@@ -59,6 +81,7 @@ export default function ChatList() {
             page: 1,
             limit: 20,
             user_id: user.id,
+            team_id: selectedTeam,
             role: user.role,
         }));
         } catch (err) {
@@ -72,11 +95,11 @@ export default function ChatList() {
             <nav className="main-content">
                 <nav className="breadcrumb">{t('breadcrump_support')}</nav>
                 <h1 className="dashboard-title">{user?.role === 'admin' ? t('support_title_admin') : t('support_title')}</h1>
-                {user.role != "admin" && 
-                    (<button className="create-button" onClick={() => setShowForm(true)}>
+                {/* {user.role != "admin" &&  */}
+                    <button className="create-button" onClick={() => setShowForm(true)}>
                         {t('create_new_chat')}
-                    </button>)
-                }
+                    </button>
+                {/* } */}
                 {loading && <p>Loading...</p>}
                 {!loading && rooms && rooms.length === 0 && <p>{t('no_chat_rooms')}</p>}
                 {!loading && rooms && rooms.length > 0 && (
@@ -116,6 +139,22 @@ export default function ChatList() {
                         value={topic}
                         onChange={(e) => setTopic(e.target.value)}
                         />
+                    </div>
+
+                    <div className="form-group">
+                        <label>{t('project_form_team')}</label>
+                        <select
+                            className="form-select"
+                            value={selectedTeam}
+                            onChange={(e) => setSelectedTeam(e.target.value)}
+                        >
+                            <option value="">{t('project_form_select_team')}</option>
+                            {teams.map((team) => (
+                            <option key={team.id} value={team.id}>
+                                {team.name}
+                            </option>
+                            ))}
+                        </select>
                     </div>
 
                     <div className="form-actions">

@@ -1,8 +1,8 @@
 import api from './api';
 
 // Создать чат-комнату
-export const createChatRoom = async ({ user_id, topic, status }) => {
-    const response = await api.post('/support/chat-room', { user_id, topic, status });
+export const createChatRoom = async ({ user_id, topic, status, team_id }) => {
+    const response = await api.post('/support/chat-room', { user_id, topic, status, team_id });
     return response.data;
 };
 
@@ -12,9 +12,13 @@ export const closeChatRoom = async (chat_room_id) => {
     return response.data;
 };
 
-// Получить список чат-комнат с пагинацией
-export const getChatRooms = async (page = 1, limit = 20, user_id, role) => {
-    const response = await api.get('/support/chat-room', { params: { page, limit, user_id, role } });
+// Получить список чат-комнат
+export const getChatRooms = async ({ user_id, team_id, role }) => {
+    const response = await api.get('/support/chat-room', {
+        params: { user_id, team_id, role }
+    });
+    console.log(user_id, team_id, role)
+    console.log(user_id, team_id, role, response)
     return response.data;
 };
 
@@ -26,15 +30,17 @@ export const createMessage = async ({ chat_room_id, text, sender, user_id }) => 
 
 // Получить сообщения из чат-комнаты с пагинацией
 export const getMessages = async (chat_room_id, page = 1, limit = 50) => {
-    const response = await api.get(`/support/chat-room/${chat_room_id}/messages`, {
-        params: { page, limit },
-    });
+    const response = await api.get(`/support/chat-room/${chat_room_id}/messages`);
     return response.data;
 };
 
 // Получить чат-комнату по иду
 export const getRoom = async (chat_room_id) => {
     const response = await api.get(`/support/chat-room/${chat_room_id}/`);
-    console.log(response)
+    return response.data;
+};
+
+export const createCallback = async ({ text, email }) => {
+    const response = await api.post(`/support/callback`, { text, email });
     return response.data;
 };

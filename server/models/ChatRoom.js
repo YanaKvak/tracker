@@ -14,6 +14,10 @@ const ChatRoom = sequelize.define('ChatRoom', {
         type: DataTypes.INTEGER,
         allowNull: false,
     },
+    team_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    },
 }, {
   tableName: 'chat_rooms',
   timestamps: true,

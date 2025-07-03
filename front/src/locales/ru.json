@@ -392,18 +392,18 @@
     "reset_password_new_password_placeholder": "Введите новый пароль",
 
     "_comment44": "============== SUPPORT ==============",
-    "breadcrump_support": "Главная / Поддержка",
-    "support_title": "Поддержка пользователей",
-    "support_title_admin": "Список комнат",
+    "breadcrump_support": "Главная / Мессенджер",
+    "support_title": "Мессенджер",
+    "support_title_admin": "Мессенджер",
     "no_chat_rooms": "Комнаты не найдены",
     "create_new_chat": "Создать новый чат",
     "support_modal_new_chat": "Создание новой комнаты",
     "save_modal_new_chat": "Создать",
     "label_modal_new_chat": "Введите тему обращения",
-    "breadcrump_support_chat": "Главная / Поддержка / Чат",
+    "breadcrump_support_chat": "Главная / Мессенджер / Чат",
     "support_title_chat": "Чат",
   
-    "topic_required": "Пожалуйста, укажите тему обращения",
+    "topic_required": "Пожалуйста, укажите тему чата",
     "chat_created": "Чат успешно создан",
     "error_creating_chat": "Ошибка при создании чата",
     "error_loading_messages": "Ошибка при загрузке сообщений",
@@ -416,5 +416,7 @@
     "error_closing_chat": "Ошибка при закрытии чата",
     "back_to_list_chat": "Назад к списку чатов",
     "close_chat": "Закрыть чат (навсегда)",
-    "enter_message": "Введите сообщение"
+    "enter_message": "Введите сообщение",
+    "callback_title": "Сообщение в поддержку",
+    "callback_text": "Введите содержание письма"
 }

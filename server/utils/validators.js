@@ -173,6 +173,9 @@ const supportSchema = {
       .isString()
       .notEmpty()
       .withMessage('Текст заголовка обязателен'),
+    body('team_id')
+      .isInt({ min: 1 })
+      .withMessage('user_id должен быть целым положительным числом'),
   ],
   create_message: [
     body('text')
@@ -194,7 +197,11 @@ const supportSchema = {
     param('chat_room_id')
       .isInt({ min: 1 })
       .withMessage('chat_room_id должен быть целым положительным числом'),
-  ]
+  ],
+  callback: [
+    body('text').isLength({ min: 6 }).withMessage('Сообщение должен содержать минимум 20 символов'),
+    body('email').isEmail().normalizeEmail().withMessage('Некорректный email'),
+  ],
 };
 
 export { userSchema, teamSchema, teamMemberSchema, projectSchema, taskSchema, tagSchema, taskTagSchema, eventSchema, authSchema, supportSchema };

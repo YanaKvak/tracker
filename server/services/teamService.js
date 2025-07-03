@@ -20,14 +20,21 @@ const searchUsersByEmail = async (email) => {
   return users;
 };
 
-const getAllTeams = async (createdBy = null) => {
-  const where = createdBy ? { created_by: createdBy } : {};
+const getTeamsForUser = async (userId) => {
   return await Team.findAll({
-    where,
     include: [
-      { model: User, as: 'creator', attributes: ['username'] },
-      { model: User, as: 'members', attributes: ['id', 'username', 'email'] },
-    ],
+      {
+        model: User,
+        as: 'members',
+        attributes: ['id', 'username', 'email'],
+        where: { id: userId }
+      },
+      {
+        model: User,
+        as: 'creator',
+        attributes: ['username']
+      }
+    ]
   });
 };
 
@@ -212,4 +219,4 @@ const removeMember = async (teamId, userId) => {
   await member.destroy();
 };
 
-export default { searchUsersByEmail, getAllTeams, getTeamById, getTeamMembers, createTeam, updateTeam, deleteTeam, addMember, removeMember };
+export default { searchUsersByEmail, getTeamsForUser, getTeamById, getTeamMembers, createTeam, updateTeam, deleteTeam, addMember, removeMember };

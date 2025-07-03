@@ -348,7 +348,7 @@ const Project = () => {
                     <p>{team.description || t('project_no_description')}</p>
                     <div className="team-meta">
                       <span>{t('project_creator')}: {team.creator?.username || t('project_no_creator')}</span>
-                      <span>{t('project_members_count')}: {team.members?.length || 0}</span>
+                      {/* <span>{t('project_members_count')}: {team.members?.length || 0}</span> */}
                     </div>
                   </div>
                 ))}

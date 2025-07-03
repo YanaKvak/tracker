@@ -52,9 +52,9 @@ export default function Chat() {
 
         socketRef.current = io('http://localhost:8080');
 
-        if (user.role === 'admin') {
+        if (user.role === 'manager') {
             socketRef.current.emit('join_support_chat', { userId: chatRoomId });
-        } else if (user.role === 'manager' || user.role === 'employee') {
+        } else if (user.role === 'employee') {
             socketRef.current.emit('join_user_chat', { userId: chatRoomId });
         }
 
@@ -93,6 +93,7 @@ export default function Chat() {
         text,
         sender: user.role,
         user_id: user.id,
+        userEmail: user.email,
         };
 
         dispatch(addMessage(messageData))
@@ -101,6 +102,7 @@ export default function Chat() {
             socketRef.current.emit('send_message', {
             userId: chatRoomId,
             sender: user.role,
+            userEmail: user.email,
             text,
             });
             setText('');
@@ -130,7 +132,7 @@ export default function Chat() {
             {!loading && messages && messages.length > 0 &&
                 messages.map((msg) => (
                 <div key={msg.id} className={`message-item ${msg.sender === user.role ? 'own-message' : ''}`} style={{ marginBottom: '10px' }}>
-                    <div><strong>{msg.sender}</strong></div>
+                    <div><strong>{msg.sender} {msg.user?.email || msg.userEmail}</strong></div>
                     <div>{msg.text}</div>
                     <div style={{ fontSize: '0.8em', color: 'gray' }}>{new Date(msg.createdAt || Date.now()).toLocaleString()}</div>
                 </div>

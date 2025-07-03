@@ -1,15 +1,10 @@
 import nodemailer from 'nodemailer';
 
 const transporter = nodemailer.createTransport({
-  host: 'smtp.mail.ru',
-  port: 465,
-  secure: true, // true для порта 465
+  service: 'gmail',
   auth: {
     user: process.env.EMAIL_FROM,
     pass: process.env.EMAIL_PASS
-  },
-  tls: {
-    rejectUnauthorized: false // Только для разработки!
   }
 });
 

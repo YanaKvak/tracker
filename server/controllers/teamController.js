@@ -15,10 +15,10 @@ const searchUsersByEmail = async (req, res, next) => {
   }
 };
 
-const getAllTeams = async (req, res, next) => {
+const getTeamsForUser = async (req, res, next) => {
   try {
-    const createdBy = req.user.role === 'manager' ? req.user.id : null;
-    const teams = await teamService.getAllTeams(createdBy);
+    const userId = req.user.id;
+    const teams = await teamService.getTeamsForUser(userId);
     res.json(teams);
   } catch (err) {
     next(err);
@@ -89,4 +89,4 @@ const removeMember = async (req, res, next) => {
   }
 };
 
-export default { searchUsersByEmail, getAllTeams, getTeamById, getTeamMembers, createTeam, updateTeam, deleteTeam, addMember, removeMember };
+export default { searchUsersByEmail, getTeamsForUser, getTeamById, getTeamMembers, createTeam, updateTeam, deleteTeam, addMember, removeMember };

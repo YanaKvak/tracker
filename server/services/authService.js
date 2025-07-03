@@ -50,9 +50,29 @@ const login = async ({ email, password }) => {
     
     await sendEmail({
       to: user.email,
-      subject: 'Подтвердите ваш email',
-      html: `Нажмите <a href="${confirmLink}">здесь</a> для подтверждения email`
+      subject: 'Подтверждение электронной почты',
+      html: `
+        <div style="font-family: Arial, sans-serif; line-height: 1.5; color: #333;">
+          <p>Здравствуйте!</p>
+    
+          <p>Вы указали этот адрес электронной почты для регистрации на сайте <strong>example.com</strong>.</p>
+    
+          <p>Пожалуйста, подтвердите вашу почту, перейдя по ссылке ниже:</p>
+    
+          <p><a href="${confirmLink}" target="_blank" style="color: #007bff;">Подтвердить email</a></p>
+    
+          <p>Если вы не регистрировались на нашем сайте, просто проигнорируйте это письмо.</p>
+    
+          <hr style="margin-top: 30px;">
+          <p style="font-size: 12px; color: #999;">
+            С уважением,<br>
+            Команда example.com<br>
+            support@example.com
+          </p>
+        </div>
+      `
     });
+    
     
     throw {
       message: 'Email не подтверждён. Новое письмо отправлено на вашу почту',

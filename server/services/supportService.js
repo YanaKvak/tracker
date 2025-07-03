@@ -2,6 +2,8 @@ import Message from "../models/Message.js";
 import User from "../models/User.js";
 import ChatRoom from "../models/ChatRoom.js";
 import { sendEmail } from "./emailService.js";
+import teamService from "./teamService.js"
+import { Op } from 'sequelize';
 
 const createMessage = async ({ text, sender, chat_room_id, user_id }) => {
     const user = await User.findByPk(user_id)
@@ -19,17 +21,17 @@ const createMessage = async ({ text, sender, chat_room_id, user_id }) => {
         throw error;
     }
 
-    if (sender === 'admin') {
-        try {
-            await sendEmail({
-            to: chatRoom.user.email,
-            subject: `Новое сообщение в вашем чате #${chatRoom.id}`,
-            html: `<p>Здравствуйте, у вас новое сообщение от поддержки:</p><p>${text}</p><p>Перейдите в чат для ответа.</p>`
-            });
-        } catch (err) {
-            console.error('Ошибка отправки email:', err);
-        }
-    }
+    // if (sender === 'admin') {
+    //     try {
+    //         await sendEmail({
+    //         to: chatRoom.user.email,
+    //         subject: `Новое сообщение в вашем чате #${chatRoom.id}`,
+    //         html: `<p>Здравствуйте, у вас новое сообщение от поддержки:</p><p>${text}</p><p>Перейдите в чат для ответа.</p>`
+    //         });
+    //     } catch (err) {
+    //         console.error('Ошибка отправки email:', err);
+    //     }
+    // }
 
     return await Message.create({ 
         text,
@@ -58,7 +60,7 @@ const closeRoom = async ({ chat_room_id }) => {
     await chatRoom.save();
 }
 
-const createRoom = async ({ status = 'open', user_id, topic }) => {
+const createRoom = async ({ status = 'open', user_id, topic, team_id }) => {
     const user = await User.findByPk(user_id)
 
     if (!user) {
@@ -69,62 +71,81 @@ const createRoom = async ({ status = 'open', user_id, topic }) => {
         topic,
         status,
         user_id: user.id,
+        team_id: team_id,
     })
 }
 
-const getMessages = async ({ chat_room_id, page = 1, limit = 20 }) => {
-    page = Number(page);
-    limit = Number(limit);
-
-    const offset = (page - 1) * limit;
+const getMessages = async ({ chat_room_id }) => {
 
     const { count, rows } = await Message.findAndCountAll({
         where: { chat_room_id },
         order: [['createdAt', 'ASC']],
         include: ['user'],
-        limit,
-        offset,
     });
 
     return {
         messages: rows,
-        pagination: {
-            totalItems: count,
-            currentPage: page,
-            totalPages: Math.ceil(count / limit),
-            pageSize: limit,
-        }
     };
 };
 
-const getRooms = async ({ page = 1, limit = 20, user_id, role }) => {
-    page = Number(page);
-    limit = Number(limit);
-  
-    const offset = (page - 1) * limit;
+// Получаем комнаты. Для админа - все, для создателя его комната, для всех участников в выбранной комнате
+const getRooms = async ({ user_id, team_id, role }) => {
+    if (!role) {
+        return { rooms: [] };
+    }
 
     const where = {};
+
+    // if (role === 'employee' || role === 'manager') {
+    //     if (team_id) {}
+    //     const included_users = await teamService.getTeamMembers(team_id);
+    //     const userIds = included_users.map(user => user.id);
+
+    //     where[Op.or] = [
+    //         { user_id: user_id },
+    //         { team_id: team_id }
+    //     ];
+    // }
+
     if (role === 'employee' || role === 'manager') {
-      where.user_id = user_id;
+        const orConditions = [{ user_id: user_id }];
+      
+        if (team_id) {
+            orConditions.push({ team_id: team_id });
+        }
+      
+        where[Op.or] = orConditions;
     }
-  
+
+    if (!role) {
+        return {
+          rooms: [],
+        }
+    }
+
     const { count, rows } = await ChatRoom.findAndCountAll({
         where,
         order: [['createdAt', 'DESC']],
-        limit,
-        offset,
     });
 
     return {
         rooms: rows,
-        pagination: {
-            totalItems: count,
-            currentPage: page,
-            totalPages: Math.ceil(count / limit),
-            pageSize: limit,
-        }
     };
 };
+
+const createCallback = async ({ text, email }) => {
+
+    try {
+        await sendEmail({
+        to: process.env.EMAIL_FROM,
+        subject: `Новое сообщение в поддержку`,
+        html: `<p>${text}</p>Почта отправителя ${email}`
+        });
+    } catch (err) {
+        console.error('Ошибка отправки email:', err);
+    }
+}
+
 
 const getRoom = async ({ chat_room_id }) => {
 
@@ -132,4 +153,4 @@ const getRoom = async ({ chat_room_id }) => {
     return room
 }
 
-export default { createMessage, createRoom, closeRoom, getMessages, getRooms, getRoom }
+export default { createMessage, createRoom, closeRoom, getMessages, getRooms, getRoom, createCallback }
