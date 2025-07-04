@@ -79,7 +79,7 @@ export default function Chat() {
           .unwrap()
           .then(() => {
             toast.success(t('chat_closed_success'));
-            navigate('/support');
+            window.location.href = '/support';
           })
           .catch((err) => {
             toast.error(err.message || t('error_closing_chat'));
@@ -157,7 +157,7 @@ export default function Chat() {
             </button>
             </div>
         </nav>
-        <button className="create-button mx-2" onClick={() => navigate('/support')}>
+        <button className="create-button mx-2" onClick={() => window.location.href = '/support'}>
             {t('back_to_list_chat')}
         </button>
         <button className="create-button" onClick={() => handleCloseRoom()}>
